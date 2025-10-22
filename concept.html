@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SipSafe IoT Concept</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+             background: linear-gradient(135deg, hsl(49, 99%, 51%) 0%, #fb9826 100%);
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(0, 0, 0, 0.8);
+            border-bottom: 2px solid #f97316;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fdfcfc;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #fcfcfa;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #fb923c;
+            background: rgba(249, 115, 22, 0.1);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #fb923c;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        /* Hero Section */
+        .hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            color: #ffffff;
+            font-weight: bold;
+            margin-bottom: 20px;
+            
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #fcfcfb;
+            margin-bottom: 30px;
+        
+            max-width: 600px;
+            font-weight: bold;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #f97316;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: #ea580c;
+            box-shadow: 0 8px 16px rgba(249, 115, 22, 0.3);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 60px;
+        }
+
+        .section {
+            background: rgba(18, 18, 17, 0.331);
+            border: 1px solid rgb(250, 250, 4);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(5px);
+        }
+
+        .section h2 {
+            font-size: 32px;
+            color: #faf8f6;
+            margin-bottom: 20px;
+        }
+
+        .section h3 {
+            font-size: 20px;
+            color: #f9f8f6;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+
+        .section p {
+            color: #fefefd;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .section ul {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .section ul li {
+            color: #f6f4f3;
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .section ul li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #f7eb05;
+            font-weight: bold;
+            text-align: justify;
+        }
+
+        /* Grid Layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .card-title {
+            color: #ffffff;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            color: #fed7aa;
+            text-align: justify;
+            font-size: 14px;
+        }
+
+        /* Prototype Section */
+        .prototype-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .prototype-card {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid rgba(249, 115, 22, 0.5);
+            border-radius: 12px;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            aspect-ratio: 10 / 7.5;
+            box-shadow: 0 8px 32px rgba(249, 115, 22, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .prototype-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 48px rgba(249, 115, 22, 0.3);
+        }
+
+        .prototype-image-container {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .prototype-image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: brightness(1.1) contrast(1.05);
+        }
+
+        .prototype-image-container input {
+            width: 100%;
+            height: 100%;
+        }
+
+        .prototype-title {
+            padding: 18px;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(249, 115, 22, 0.1));
+            color: #fbbf24;
+            font-weight: bold;
+            text-align: center;
+            border-top: 2px solid rgba(249, 115, 22, 0.4);
+            font-size: 16px;
+        }
+
+        /* Implementation Section */
+        .implementation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .implementation-card {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(249, 115, 22, 0.3);
+            border-radius: 8px;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            aspect-ratio: 10 / 7.5;
+        }
+
+        .implementation-image-container {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .implementation-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .implementation-image-container input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .implementation-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            color: #fed7aa;
+            font-size: 14px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .implementation-info {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-top: 1px solid rgba(249, 115, 22, 0.3);
+        }
+
+        .implementation-title {
+            color: #fbbf24;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .implementation-text {
+            color: #fed7aa;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* Specs Box */
+        .specs-box {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .specs-box p {
+            font-weight: bold;
+            color: #fbbf24;
+            margin-bottom: 10px;
+        }
+
+        .specs-box ul li {
+            color: #fed7aa;
+        }
+
+        /* Brochure Section */
+        .brochure-section {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(249, 115, 22, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .brochure-section h2 {
+            color: #fcfcfb;
+            margin-bottom: 15px;
+        }
+
+        .brochure-section p {
+            color: #fed7aa;
+            margin-bottom: 20px;
+        }
+
+        /* Team Section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .team-card {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid rgba(249, 115, 22, 0.4);
+            border-radius: 12px;
+            padding: 0;
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 8px 24px rgba(249, 115, 22, 0.15);
+        }
+
+        .team-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 32px rgba(249, 115, 22, 0.3);
+        }
+
+        .team-image-container {
+            width: 100%;
+            height: 200px;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .team-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .team-image-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.1), rgba(0, 0, 0, 0.5));
+            color: #fed7aa;
+            font-size: 14px;
+        }
+
+        .team-info {
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(249, 115, 22, 0.05));
+        }
+
+        .team-name {
+            color: #fbbf24;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .team-position {
+            color: #fed7aa;
+            font-size: 13px;
+            font-style: italic;
+        }
+
+        /* Footer */
+        footer {
+            background: #000000;
+            border-top: 2px solid rgba(249, 115, 22, 0.3);
+            padding: 30px 20px;
+            text-align: center;
+            color: #fbbf24;
+            margin-top: 40px;
+        }
+
+        footer p {
+            margin-bottom: 8px;
+        }
+
+        footer .footer-text {
+            color: #fed7aa;
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links.active {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: rgba(0, 0, 0, 0.9);
+                border-bottom: 2px solid #f97316;
+                padding: 15px;
+                gap: 10px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .grid-2, .grid-3, .prototype-grid, .implementation-grid, .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-logo">SipSafe</div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>IoT Innovation Project</h1>
+        <p>Transforming Connectivity Through Smart Technology</p>
+        <div class="hero-buttons">
+            <a href="#intro" class="btn btn-primary">Explore Project</a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Introduction -->
+        <section id="intro" class="section">
+            <h2>Introduction</h2>
+            <p>Road accidents caused by drunk driving remain one of the leading contributors to fatalities worldwide. Despite existing laws and awareness campaigns, alcohol-impaired driving continues to endanger not only drivers but also passengers and pedestrians. Traditional methods of monitoring alcohol levels, such as checkpoints and manual testing, are reactive rather than preventive.
+
+With the rise of the Internet of Things (IoT), smart safety systems have become possible. This project develops an IoT-based alcohol detection system that monitors the driver's breath, displays the alcohol level on an LCD screen and provides a visual indicator of the driver's condition. When intoxication is detected, the system sends real-time alerts and prevents engine ignition. At the same time, a voice alert system, an annoying alarm sound and a red LED light are activated to provide immediate warnings and ensure safety.</p>
+        </section>
+
+        <!-- Purpose & Objective -->
+        <section id="purpose" class="section">
+            <h2>Purpose & Objective</h2>
+            <h3>General Objective</h3>
+            <p> To design and implement an IoT-based alcohol detection system that enhances road safety by preventing intoxicated drivers from operating vehicles</p>
+            <h3>Specific Objectives</h3>
+            <ul>
+                <li>To develop a breath alcohol detection system using an MQ-3 alcohol sensor.</li>
+                <li>To integrate an LCD display that shows the detected alcohol level and provides a clear visual indicator of the driver's condition.</li>
+                <li>To integrate a red LED indicator that triggers simultaneously with the voice alert and annoying alarm sound when alcohol is detected.</li>
+                <li>To implement a safety mechanism that prevents the car from starting if alcohol levels exceed the safe limit.</li>
+                <li>To add a power button that allows the user to turn the system on and off easily for convenience and energy efficiency.</li>
+            </ul>
+        </section>
+
+        <!-- Concept Description -->
+        <section id="concept" class="section">
+            <h2>Concept Description</h2>
+            <p>The proposed system combines alcohol sensing with multiple warning alerts and visual indicators. The MQ-3 alcohol sensor measures the driver's breath to determine the alcohol concentration, which is displayed on an LCD screen for real-time monitoring. If intoxication is detected, the system automatically prevents engine ignition while simultaneously activating a voice alert, an annoying alarm sound, and a red LED light to warn the driver. Additionally, the system includes a power button that allows the user to easily turn the device on or off, ensuring convenience, energy efficiency, and user control. This combination of alerts, visual feedback, and power management enhances safety by providing immediate and clear responses to hazardous conditions.</section>
+
+        <!-- Significance -->
+        <section id="significance" class="section">
+            <h2>Significance of the Study</h2>
+            <p>This project is significant because it addresses the persistent issue of drunk driving accidents. The system can:</p>
+            <ul>
+                <li>Help drivers by reminding them of their fitness to drive.</li>          
+                <li>Help society by promoting safer roads and encouraging responsible driving behavior.</li>
+                <li>Contribute to society by reducing accidents, injuries and fatalities caused by intoxicated driving.</li>
+            </ul>
+        </section>
+
+        <!-- Methodology -->
+        <section id="methodology" class="section">
+            <h2>Methodology</h2>
+            <ul>
+                <li>Alcohol Detection – The MQ-3 sensor detects the presence and concentration of alcohol from the driver's breath.</li>          
+                <li>Processing – The microcontroller (e.g., Arduino) processes the sensor data and displays the alcohol level on the LCD screen, providing real-time feedback to the driver.</li>
+                <li>Decision/Alert – If the detected alcohol concentration exceeds the set threshold, the system automatically disables the vehicle's ignition and simultaneously activates a voice alert, an annoying alarm sound, and a red LED indicator to warn the driver.</li>
+                <li>Power Control – A dedicated power button allows the user to easily turn the system on and off, ensuring convenient operation and improved energy efficiency.</li>
+            </ul>
+        </section>
+
+        <!-- Scope & Limitation -->
+        <section id="scope" class="section">
+            <h2>Scope & Limitation</h2>
+            <h3>Scope</h3>
+            <p>This project focuses on developing an IoT-based alcohol detection system for vehicles. It utilizes an MQ-3 alcohol sensor to measure the driver's breath and determine alcohol concentration. If the system detects intoxication, it prevents the vehicle's ignition and activates immediate warnings through a voice alert, an annoying alarm sound, and a red LED indicator. Additionally, the system includes a power button that allows the user to easily turn the device on or off for convenience and energy efficiency. Overall, the project is designed to promote road safety by discouraging drunk driving and providing real-time feedback to the driver.</p>   
+            <h3>Limitations</h3>
+            <p>The system is limited to detecting alcohol levels through breath analysis only and does not address other conditions such as drug use, fatigue, or medical impairments that may affect driving ability. Its effectiveness depends on the accuracy and sensitivity of the MQ-3 sensor, which may be influenced by environmental factors (e.g., smoke, strong odors, or sensor placement). Additionally, the system is intended for demonstration and prototype purposes and may require further development and testing before large-scale or commercial deployment.</p>
+        </section>
+
+        <!-- Conceptual Framework -->
+        <section id="framework" class="section">
+            <h2>Conceptual Framework</h2>
+            <div class="specs-box">
+                <p>The project is based on the principles of IoT (interconnected devices exchanging data) and safety engineering (designing systems to minimize risks). The Input–Process–Output (IPO) model applies:</p>
+                <ul>
+                    <li><strong>Input:</strong> Breath sample → Sensor reading</li>
+                    <li><strong>Process:</strong> Microcontroller analyzes data, compares to threshold</li>
+                    <li><strong>Output:</strong> If intoxication is detected, the system triggers a voice alert, displays the alcohol level on the LCD, activates an annoying alarm and a red LED, and engages the ignition lock to prevent the vehicle from starting. A power button is also integrated to allow the user to turn the system on or off conveniently, ensuring energy efficiency and ease of use.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Expected Outcome -->
+        <section id="outcome" class="section">
+            <h2>Expected Outcome</h2>
+            <ul>
+                <li>A working prototype of an IoT-based alcohol detection system.</li>
+                <li>Increased awareness and prevention of drunk driving incidents.</li>
+                <li>Contribution to safer roads and communities.</li>
+            </ul>
+        </section>
+
+        <!-- Target Beneficiaries -->
+        <section id="beneficiaries" class="section">
+            <h2>Target Beneficiaries/Users</h2>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title">Drivers</div>
+                    <div class="card-text">For self-awareness and prevention.</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Transportation Companies</div>
+                    <div class="card-text">To ensure safety of employees and passengers.</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Law Enforcement Agencies</div>
+                    <div class="card-text">For monitoring road safety compliance.</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">General Public</div>
+                    <div class="card-text">Reduced risks of accidents and improved road safety.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Prototype Views -->
+        <section id="prototype" class="section">
+            <h2>Prototype Views</h2>
+            <div class="prototype-grid">
+                <div class="prototype-card">
+                    <div class="prototype-image-container">
+                        <img src="16.png">
+                    </div>
+                    <div class="prototype-title">Front View</div>
+                </div>
+                <div class="prototype-card">
+                    <div class="prototype-image-container">
+                        <img src="17.png">
+                        </div>
+                    <div class="prototype-title">Left View</div>
+                </div>
+                <div class="prototype-card">
+                    <div class="prototype-image-container">
+                        <img src="19.png" >
+                       </div>
+                    <div class="prototype-title">Right View</div>
+                </div>
+                <div class="prototype-card">
+                    <div class="prototype-image-container">
+                        <img src = "18.png">
+                       </div>
+                    <div class="prototype-title">Back View</div>
+                </div>
+                <div class="prototype-card">
+                    <div class="prototype-image-container">
+                        <img src="top.png">
+                    </div>
+                    <div class="prototype-title">Top View</div>
+                </div>
+                <div class="prototype-card">
+                    <div class="prototype-image-container">
+                        <img src = "20.png">
+                        </div>
+                    <div class="prototype-title">Inside View</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Implementation -->
+        <section id="implementation" class="section">
+            <h2>Implementation</h2>
+            
+            <!-- Car and Motor Section -->
+            <h3 style="margin-top: 30px; margin-bottom: 20px;">Car and Motor Implementation</h3>
+            <div class="implementation-grid">
+                <div class="implementation-card">
+                    <div class="implementation-image-container">
+                        <img src="21.png" alt="Car Image ">
+                    </div>
+                    <div class="implementation-info">
+                        <div class="implementation-title">Car View </div>
+                    </div>
+                </div>
+
+                <div class="implementation-card">
+                    <div class="implementation-image-container">
+                        <img src="22.png" alt="Motor Image ">
+                    </div>
+                    <div class="implementation-info">
+                        <div class="implementation-title">Motor View </div>
+                    </div>
+                </div>
+
+               
+            </div>
+
+            <!-- Circuit Section -->
+            <h3 style="margin-top: 30px; margin-bottom: 20px;">Circuit Implementation</h3>
+
+            
+                    <div class="implementation-image-container" style="padding: 30px; background: rgba(0, 0, 0, 0.95);">
+                        <img src="23.png" alt="Circuit">
+
+                    </div>
+                        
+                
+                    
+                </div>
+            </div>
+        </section>
+
+        <!-- Brochure -->
+        <section class="brochure-section">
+            <h2>Project Brochure</h2>
+            <p>Download our comprehensive project brochure containing all essential information about the IoT project.</p>
+            <a href="Brochure-IoT.pdf" class="btn btn-primary" target="_blank">Download Brochure PDF</a>
+        </section>
+
+        <!-- Conclusion -->
+        <section id="conclusion" class="section">
+            <h2>Conclusion</h2>
+            <p>The IoT-Based Alcohol Detection System for Drivers presents an innovative and practical solution to the long-standing problem of drunk driving. By integrating alcohol sensors with IoT technology, the project provides a preventive mechanism that not only monitors drivers but also helps reduce accidents, protect lives and promote responsible road behavior.</p>
+        </section>
+
+        <!-- Team Members -->
+        <section id="team" class="section">
+            <h2>Project Team</h2>
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-image-container">
+                        <img src="arnel.jpg">
+                    </div>
+                    <div class="team-info">
+                        <div class="team-name">Arnel Rivera</div>
+                        <div class="team-position">CEO</div>
+                    </div>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-image-container">
+                        <img src="no.jpg">
+                    </div>
+                    <div class="team-info">
+                        <div class="team-name">Noel Andrew Limpangog</div>
+                        <div class="team-position">Developer</div>
+                    </div>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-image-container">
+                        <img src="jan.jpg">  
+                    </div>
+                    <div class="team-info">
+                        <div class="team-name">Janmar Bela-Ong</div>
+                        <div class="team-position">Developer</div>
+                    </div>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-image-container">
+                        <img src="abi.jpg">
+                    </div>
+                    <div class="team-info">
+                        <div class="team-name">Abigail Rubillar</div>
+                        <div class="team-position">Editor</div>
+                    </div>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-image-container">
+                        <img src="ma.jpg">
+                    </div>
+                    <div class="team-info">
+                        <div class="team-name">John Adrian Maisog</div>
+                        <div class="team-position">Wiring</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>2025 IoT Project. All rights reserved.</p>
+        <p class="footer-text">Powered by SipSafe</p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
+
+        // Close menu when a link is clicked
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navMenu').classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
